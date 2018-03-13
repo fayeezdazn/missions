@@ -23,6 +23,10 @@ class SearchingScreen extends Component {
   }
 
   componentDidUpdate(prevProps) {
+    if (prevProps.bids.length != this.props.bids.length) {
+      this.handleSortingOptionChange(this.state.selectedSortingOption);
+    }
+
     if (this.props.stage === 'signing' && prevProps.stage !== 'signing') {
       this.screenNode.scrollTop = 0;
     }
@@ -89,7 +93,7 @@ class SearchingScreen extends Component {
     /* eslint-enable indent */
   }
 
-  render() {    
+  render() {
 
     const {
       bids,

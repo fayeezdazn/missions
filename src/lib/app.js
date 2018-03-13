@@ -11,7 +11,7 @@ const _updateStatusAndDispatch = () => {
 
 const _updateBidsAndDispatch = () => {
   const order = store.getState().order;
-  if (['searching', 'choosing'].includes(order.stage)) {
+  if (['searching'].includes(order.stage)) {
     const needId  = order.needId;
     store.dispatch(updateBids({needId}));
   }
