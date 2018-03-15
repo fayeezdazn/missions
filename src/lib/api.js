@@ -58,7 +58,7 @@ export const confirmTakeoff = () => {
   return fetchWithUserId(url);
 };
 
-const fetchWithUserId = (url, method = 'GET', body) => {
+export const fetchWithUserId = (url, method = 'GET', body) => {
   const userId = store.getState().settings.user_id;
   url.searchParams.set('user_id', userId);
   const headers = new Headers();

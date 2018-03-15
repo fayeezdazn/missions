@@ -30,7 +30,9 @@ module.exports = merge(getCommon(process.env.NODE_ENV), {
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify(process.env.NODE_ENV),
+        DAV_ENV: JSON.stringify('simulation'),
         MISSION_CONTROL_HOST: JSON.stringify('http://localhost:8888'),
+        SIMULATION_CAPTAIN_HOST: JSON.stringify('http://localhost:8887'),
       },
     }),
   ],

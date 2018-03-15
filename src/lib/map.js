@@ -1,5 +1,6 @@
 import mapboxgl from 'mapbox-gl';
-import { makeImage } from './utils';
+import {makeImage} from './utils';
+import {updateSimulationVehiclesAndDispatch} from './simulation';
 import droneIcon from '../images/icon_drone.png';
 import pickupIcon from '../images/pin-pickup.svg';
 import dropoffIcon from '../images/pin-dropoff.svg';
@@ -37,7 +38,7 @@ const hasGeolocationPermission = () =>
   new Promise((resolve, reject) => {
     if (!navigator.permissions) reject();
     navigator.permissions
-      .query({ name: 'geolocation' })
+      .query({name: 'geolocation'})
       .then(result => (result.state === 'granted' ? resolve() : reject()));
   });
 
@@ -109,20 +110,26 @@ export const createMap = ({
 
   map.on('moveend', () => {
     const mapCenter = map.getCenter();
-    onMoveEnd({ lat: mapCenter.lat, long: mapCenter.lng });
+    onMoveEnd({lat: mapCenter.lat, long: mapCenter.lng});
   });
 
   // Check if user has already granted permission to access geolocation
   // If permission was granted, get user location and center map on them
   hasGeolocationPermission()
     .then(getUserLocation)
-    .then(({ coords }) => map.setCenter([coords.longitude, coords.latitude]))
-    .catch(() => {});
+    .then(({coords}) => {
+      map.setCenter([coords.longitude, coords.latitude]);
+      if (process.env.DAV_ENV === 'simulation') {
+        updateSimulationVehiclesAndDispatch();
+      }
+    })
+    .catch(() => {
+    });
 
   return map;
 };
 
-export const updateMap = (map, vehicles = [], { pickup, dropoff } = {}) => {
+export const updateMap = (map, vehicles = [], {pickup, dropoff} = {}) => {
   handleMapUpdate(map, () => {
     if (vehicles) map.getSource('vehicles').setData(createGeoJson(vehicles));
     if (pickupAndDropoffPresent(map, pickup, dropoff)) {
@@ -146,19 +153,19 @@ const pickupAndDropoffPresent = (map, pickup, dropoff) => {
   );
 };
 
-export const initiateZoomTransition = (map, pickup, dropoff,options) => {
+export const initiateZoomTransition = (map, pickup, dropoff, options) => {
   handleMapUpdate(map, () => {
     const collection = turf.featureCollection([
       turf.point([pickup.long, pickup.lat]),
       turf.point([dropoff.long, dropoff.lat]),
     ]);
     let bbox = turf.bbox(collection);
-    map.fitBounds(bbox, {...options, padding: {top:100,bottom:300,left:50,right:50}  });
+    map.fitBounds(bbox, {...options, padding: {top: 100, bottom: 300, left: 50, right: 50}});
   });
 };
 
 export const clearPins = map => {
-  if (map.getSource('pickup') && map.getSource('dropoff')){
+  if (map.getSource('pickup') && map.getSource('dropoff')) {
     map.removeLayer('pickup');
     map.removeLayer('dropoff');
     map.removeSource('pickup');

@@ -1,4 +1,4 @@
-import { createAction } from 'redux-actions';
+import {createAction} from 'redux-actions';
 import {
   fetchStatus as apiFetchStatus,
   createNeed as apiCreateNeed,
@@ -6,6 +6,8 @@ import {
   chooseBid as apiChooseBid,
   confirmTakeoff as apiConfirmTakeoff,
 } from '../lib/api';
+
+import {getSimulationVehicles as apiSimulationVehicles} from '../lib/simulation';
 
 export const updateApp = createAction('UPDATE_APP');
 
@@ -40,6 +42,10 @@ export const confirmTakeoff = createAction(
 
 export const confirmTakeoffPending = createAction('CONFIRM_TAKEOFF_PENDING');
 
-export const confirmTakeoffFulfilled = createAction(
-  'CONFIRM_TAKEOFF_FULFILLED',
-);
+export const confirmTakeoffFulfilled = createAction('CONFIRM_TAKEOFF_FULFILLED');
+
+// simulation
+
+export const  updateSimulationVehicles = createAction('UPDATE_SIMULATION_VEHICLES', apiSimulationVehicles);
+
+export const  updateSimulationVehiclesFulfilled = createAction('UPDATE_SIMULATION_VEHICLES_FULFILLED');

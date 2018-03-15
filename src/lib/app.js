@@ -1,18 +1,18 @@
 import store from '../store';
-import { updateBids, updateStatus } from '../actions';
+import {updateBids, updateStatus} from '../actions';
 
 const _updateStatusAndDispatch = () => {
   const coords = store.getState().map.coords;
   if (!coords.lat || !coords.long) return;
-  const { lat, long } = coords;
+  const {lat, long} = coords;
   const needId = store.getState().order.needId;
-  store.dispatch(updateStatus({ lat, long, needId }));
+  store.dispatch(updateStatus({lat, long, needId}));
 };
 
 const _updateBidsAndDispatch = () => {
   const order = store.getState().order;
   if (['searching', 'choosing'].includes(order.stage)) {
-    const needId  = order.needId;
+    const needId = order.needId;
     store.dispatch(updateBids({needId}));
   }
 };
