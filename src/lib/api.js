@@ -12,12 +12,12 @@ export const fetchStatus = ({ id, lat, long, needId }) => {
   long && url.searchParams.set('long', long);
   needId && url.searchParams.set('needId', needId);
   missionId && url.searchParams.set('missionId', missionId);
-  return fetchWithUserId(url);
+  return fetchWithRequesterId(url);
 };
 
 export const fetchBids = ({needId}) => {
   let url = new URL(`/bids/${needId}`, apiRoot);
-  return fetchWithUserId(url);
+  return fetchWithRequesterId(url);
 };
 
 export const createNeed = ({ pickup, dropoff, pickup_at, size, weight }) => {
@@ -35,18 +35,18 @@ export const createNeed = ({ pickup, dropoff, pickup_at, size, weight }) => {
     cargo_type: sizeOption.cargoType,
     weight: parseFloat(weight),
   };
-  return fetchWithUserId(url, 'POST', body);
+  return fetchWithRequesterId(url, 'POST', body);
 };
 
 export const chooseBid = bidId => {
   let url = new URL(`/bids/${bidId}/choose`, apiRoot);
-  return fetchWithUserId(url, 'PUT');
+  return fetchWithRequesterId(url, 'PUT');
 };
 
 export const cancelNeed = () => {
   const needId = store.getState().order.needId;
   let url = new URL(`/needs/${needId}`, apiRoot);
-  return fetchWithUserId(url, 'DELETE');
+  return fetchWithRequesterId(url, 'DELETE');
 };
 
 export const confirmTakeoff = () => {
@@ -55,12 +55,12 @@ export const confirmTakeoff = () => {
   let url = new URL(`/mission_command`, apiRoot);
   url.searchParams.set('mission_id', missionId);
   url.searchParams.set('command', command);
-  return fetchWithUserId(url);
+  return fetchWithRequesterId(url);
 };
 
-export const fetchWithUserId = (url, method = 'GET', body) => {
+export const fetchWithRequesterId = (url, method = 'GET', body) => {
   const userId = store.getState().settings.user_id;
-  url.searchParams.set('user_id', userId);
+  url.searchParams.set('requester_id', userId);
   const headers = new Headers();
 
   headers.append('Accept', 'application/json');
