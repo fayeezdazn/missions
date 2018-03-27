@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Link from '../containers/LinkContainer.jsx';
 import VehicleBid from './VehicleBid.jsx';
@@ -123,7 +123,7 @@ class SearchingScreen extends Component {
             >
               cancel
             </Link>
-            <img src={radar} id="radar"/>
+            <img src={radar} id="radar" />
             <div id="vehicle-bid-preview-cards">
               {bids.map(
                 bid =>
@@ -161,26 +161,26 @@ class SearchingScreen extends Component {
 
         <div className="screen-background--dark">
           {stage === 'signing' &&
-          vehicleOnMission && (
-            <div className="modal-container">
-              <div id="signing-box" className="modal-box">
-                <h2>Initiating DAV Transaction</h2>
-                <p>Signing secure smart contract between:</p>
-                <VehicleCard
-                  icon={vehicleOnMission.icon}
-                  id={vehicleOnMission.id}
-                  model={vehicleOnMission.model}
-                />
-                <div id="sign-here">
-                  <img
-                    src={'/images/signing.gif?' + missionId}
-                    alt="Signing smart contract"
+            vehicleOnMission && (
+              <div className="modal-container">
+                <div id="signing-box" className="modal-box">
+                  <h2>Initiating DAV Transaction</h2>
+                  <p>Signing secure smart contract between:</p>
+                  <VehicleCard
+                    icon={vehicleOnMission.icon}
+                    id={vehicleOnMission.id}
+                    model={vehicleOnMission.model}
                   />
+                  <div id="sign-here">
+                    <img
+                      src={'/images/signing.gif?' + missionId}
+                      alt="Signing smart contract"
+                    />
+                  </div>
+                  <UserCardContainer />
                 </div>
-                <UserCardContainer/>
               </div>
-            </div>
-          )}
+            )}
         </div>
       </div>
     );
