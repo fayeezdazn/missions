@@ -25,7 +25,7 @@ export default handleActions(
         cargo_type,
         weight,
         signed_at,
-      } = payload.mission;
+      } = payload;
       const mission = {
         id: parseInt(mission_id),
         vehicleId: vehicle_id,
